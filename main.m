@@ -1,28 +1,28 @@
 clear all;
 clc;
 
-% ncfile = "test_0001.nc";
-% nc.dye_source_term = 1;
-% nc.umol            = 1.0E-05;                % Vertical mixing coefficient (1E-5)    
-% nc.fact            = 1;
-% nc.fm1             = 0;
-% 
-% nc.k_specify       = [1;2;3;4;5];            % NO. of sigma layer for specify dye release
-% nc.m_specify       = [6];                   % NO. of node for specify dye release
-% nc.dyestart        = mjuliandate(2015,01,01,00,00,00);
-% nc.dyestop         = mjuliandate(2015,01,07,00,00,00);
-
-ncfile = "long_box_0001.nc";
+ncfile = "test_0001.nc";
 nc.dye_source_term = 1;
 nc.umol            = 1.0E-05;                % Vertical mixing coefficient (1E-5)    
 nc.fact            = 1;
 nc.fm1             = 0;
 
-nc.k_specify       = [1;2];            % NO. of sigma layer for specify dye release
-nc.m_specify       = [988;987;986;1032;1034;1033;939;940];                   % NO. of node for specify dye release
+nc.k_specify       = [1;2;3;4;5];            % NO. of sigma layer for specify dye release
+nc.m_specify       = [6];                    % NO. of node for specify dye release
 nc.dyestart        = mjuliandate(2015,01,01,00,00,00);
 nc.dyestop         = mjuliandate(2015,01,07,00,00,00);
 
+% ncfile = "long_box_0001.nc";
+% nc.dye_source_term = 1;
+% nc.umol            = 1.0E-05;                % Vertical mixing coefficient (1E-5)    
+% nc.fact            = 1;
+% nc.fm1             = 0;
+% 
+% nc.k_specify       = [1;2];            % NO. of sigma layer for specify dye release
+% nc.m_specify       = [988;987;986;1032;1034;1033;939;940];                   % NO. of node for specify dye release
+% nc.dyestart        = mjuliandate(2015,01,01,00,00,00);
+% nc.dyestop         = mjuliandate(2015,01,07,00,00,00);
+% 
 nc                 = loadNetCDF(ncfile,nc);
 
 %%
@@ -31,8 +31,8 @@ tic;
 bar = waitbar(0,'Calculation begin ...');
 contr = zeros(size(nc.dye));
 alpha = zeros(size(nc.dye));
-% inttime = [nc.timestart:nc.dti/3600/24:nc.timestop+1];
-inttime = [nc.timestart:3600/3600/24:nc.timestop+1];
+% inttime = [nc.timestart:nc.dti/3600/24:nc.timestop];
+inttime = [nc.timestart:nc.dti/(3600*24):nc.timestop];
 for i = 1:length(inttime)-1
     nc.u = nc.uout(:,:,i);
     nc.v = nc.vout(:,:,i);
