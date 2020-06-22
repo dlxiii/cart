@@ -13,6 +13,15 @@ function dyef = dye(nc,dye,inttime)
     % 垂向计算使用的是有限差分法
     % Use the FVM in the 2D plane
     % Uses the FDM in vertical plane
+    
+    % for debug
+    % dye_array = zeros(size(nc.dye));
+    % inttime   = [nc.timestart:nc.dti/(3600*24):nc.timestop];
+    % i         = 1;
+    % dye       = dye_array(:,:,i);
+    % inttime   = inttime(:,:,i);
+    % u         = nc.uout(:,:,i);
+    % v         = nc.vout(:,:,i);
 
     dye_source_term = nc.dye_source_term;
     umol            = nc.umol;         % Vertical mixing coefficient (1E-5)    
@@ -26,13 +35,14 @@ function dyef = dye(nc,dye,inttime)
 
     dti       = nc.dti;
 
+    u         = nc.u;                  % [NC][nt,kb]:  X velocity
+    v         = nc.v;                  % [NC][nt,kb]:  Y velocity
+    
     i_obc_n   = nc.i_obc_n;            % [OK][nobc]:   Open boundary node list for fvcom
     ntrg      = nc.ntrg;               % [OK][ncv]:    Element associated with this control volume edge
     dt1       = nc.dt1;                % [OK][nt]:     Depth at previous time step
     dltxe     = nc.dltxe;              % [OK][ncv]:    X length of nodal control volume edges
     dltye     = nc.dltye;              % [OK][ncv]:    Y length of nodal control volume edges
-    u         = nc.u;                  % [NC][nt,kb]:  X velocity
-    v         = nc.v;                  % [NC][nt,kb]:  Y velocity
     dz1       = nc.dz1;                % [OK][nt,kb]:  Delta-sigma value
     ntsn      = nc.ntsn;               % [NC][m]:      Number of nodes surrounding each node
     nbsn      = nc.nbsn;               % [NC][m,8]:    Indices of nodes surrounding each node
@@ -268,6 +278,7 @@ function dyef = dye(nc,dye,inttime)
     % Accumulate Fluxes at Boundary Nodes
     %-------------------------------------------------------
 
+    xflux_obc = zeros(iobcn,kbm1);
     for k=1:kbm1
      if iobcn > 0
          for i=1:iobcn
@@ -298,9 +309,9 @@ function dyef = dye(nc,dye,inttime)
                end
 
                if isonb(i) == 2
-                   xflux(i,k)=temp*art1(i);    %/dz(k)
+                   xflux(i,k)=temp*art1(i);
                else
-                   xflux(i,k)=xflux(i,k)+temp*art1(i);    %/dz(k)
+                   xflux(i,k)=xflux(i,k)+temp*art1(i);
                end
            end
        end
@@ -461,23 +472,22 @@ function dyef = dye(nc,dye,inttime)
             s2d=0.0;
             s2d_next=0.0;
             xflux2d=0.0;
+            
             for k=1:kbm1
                 s2d=s2d+dye(j,k)*dz(j,k);
                 s2d_next=s2d_next+dyef(j1,k)*dz(j1,k);
-                xflux2d=xflux2d+xflux_obc(i,k);%*dz(k)
+                xflux2d=xflux2d+xflux_obc(i,k);
             end
-
-            if uard_obcn(i) > 0.0
+            
+            if uard_obcn(i) > 0.0 % if the flow is out of domain
                 tmp=xflux2d+s2d*uard_obcn(i);
                 s2d_obc=(s2d*dt(j)-tmp*dti/art1(j))/d(j);
                 for k=1:kbm1
                     dyef(j,k)=dyef(j1,k);
                 end
-
                 for k=1:kbm1
                     smax = max(dye(nbsn(j,1:ntsn(j)),k));
                     smin = min(dye(nbsn(j,1:ntsn(j)),k));
-
                     if k == 1
                         smax = max(smax,(dye(j,k)*dz(j,k+1)+dye(j,k+1)*dz(j,k))/...
                             (dz(j,k)+dz(j,k+1)));
@@ -498,17 +508,14 @@ function dyef = dye(nc,dye,inttime)
                             (dye(j,k)*dz(j,k+1)+dye(j,k+1)*dz(j,k))/...
                             (dz(j,k)+dz(j,k+1)));
                     end
-
                     if smin-dyef(j,k) > 0.0, dyef(j,k) = smin; end
                     if dyef(j,k)-smax > 0.0, dyef(j,k) = smax; end
                 end
-            else
+            else % if the flow is into the domain
                 for k=1:kbm1
                     dyef(j,k)=dye(j,k);
                 end
             end
         end
     end
-    
 end
-
