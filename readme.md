@@ -1,0 +1,3 @@
+readme
+
+The initial values of concentration C(t, x) and age concentration β(t, x) were both set to 0 in the whole domain. At the releasing point (x=xr), the concentration C(t, x) was always set to 1, that is, the water particle was released continuously at x=xr . The age concentration at x=x r was set to 0, resulting in a zero age of water particle at x=xr  (Bolin and Rodhe, 1973; Takeoka, 1984). At the two ends (x=0 and x=L), the concentration C(t, x) and age concentrationβ(t, x) both were set to 0, indicating that the water particle could not re-enter the model domain.
