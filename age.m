@@ -269,6 +269,7 @@ function dyef_age = age(nc,dye_age,inttime,c)
     % Accumulate Fluxes at Boundary Nodes
     %-------------------------------------------------------
 
+    xflux_obc = zeros(iobcn,kbm1);
     for k=1:kbm1
      if iobcn > 0
          for i=1:iobcn
@@ -468,17 +469,15 @@ function dyef_age = age(nc,dye_age,inttime,c)
                 xflux2d=xflux2d+xflux_obc(i,k);%*dz(k)
             end
 
-            if uard_obcn(i) > 0.0
+            if uard_obcn(i) > 0.0 % if the flow is out of domain
                 tmp=xflux2d+s2d*uard_obcn(i);
                 s2d_obc=(s2d*dt(j)-tmp*dti/art1(j))/d(j);
                 for k=1:kbm1
                     dyef_age(j,k)=dyef_age(j1,k);
                 end
-
                 for k=1:kbm1
                     smax = max(dye_age(nbsn(j,1:ntsn(j)),k));
                     smin = min(dye_age(nbsn(j,1:ntsn(j)),k));
-
                     if k == 1
                         smax = max(smax,(dye_age(j,k)*dz(j,k+1)+dye_age(j,k+1)*dz(j,k))/...
                             (dz(j,k)+dz(j,k+1)));
@@ -499,17 +498,14 @@ function dyef_age = age(nc,dye_age,inttime,c)
                             (dye_age(j,k)*dz(j,k+1)+dye_age(j,k+1)*dz(j,k))/...
                             (dz(j,k)+dz(j,k+1)));
                     end
-
                     if smin-dyef_age(j,k) > 0.0, dyef_age(j,k) = smin; end
                     if dyef_age(j,k)-smax > 0.0, dyef_age(j,k) = smax; end
                 end
-            else
+            else % if the flow is into the domain
                 for k=1:kbm1
                     dyef_age(j,k)=dye_age(j,k);
                 end
             end
         end
     end
-    
 end
-
