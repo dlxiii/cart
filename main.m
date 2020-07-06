@@ -1,16 +1,16 @@
 clear all;
 clc;
 
-ncfile = "test_0001.nc";
-nc.dye_source_term = 1;
-nc.umol            = 1.0E-05;                % Vertical mixing coefficient (1E-5)    
-nc.fact            = 1;
-nc.fm1             = 0;
-
-nc.k_specify       = [1;2;3;4;5];            % NO. of sigma layer for specify dye release
-nc.m_specify       = [6];                    % NO. of node for specify dye release
-nc.dyestart        = mjuliandate(2015,01,01,00,00,00);
-nc.dyestop         = mjuliandate(2015,01,07,00,00,00);
+% ncfile = "test_0001.nc";
+% nc.dye_source_term = 1;
+% nc.umol            = 1.0E-05;                % Vertical mixing coefficient (1E-5)    
+% nc.fact            = 1;
+% nc.fm1             = 0;
+% 
+% nc.k_specify       = [1;2;3;4;5];            % NO. of sigma layer for specify dye release
+% nc.m_specify       = [6];                    % NO. of node for specify dye release
+% nc.dyestart        = mjuliandate(2015,01,01,00,00,00);
+% nc.dyestop         = mjuliandate(2015,01,07,00,00,00);
 
 % ncfile = "long_box_0001.nc";
 % nc.dye_source_term = 1;
@@ -23,6 +23,18 @@ nc.dyestop         = mjuliandate(2015,01,07,00,00,00);
 % nc.dyestart        = mjuliandate(2015,01,01,00,00,00);
 % nc.dyestop         = mjuliandate(2015,01,07,00,00,00);
 % 
+
+ncfile = "tokyobay_0001.nc";
+nc.dye_source_term = 1;
+nc.umol            = 1.0E-05;                % Vertical mixing coefficient (1E-5)    
+nc.fact            = 1;
+nc.fm1             = 0;
+
+nc.k_specify       = [1;2;3;4;5];            % NO. of sigma layer for specify dye release
+nc.m_specify       = [6];                    % NO. of node for specify dye release
+nc.dyestart        = mjuliandate(2015,01,01,00,00,00);
+nc.dyestop         = mjuliandate(2015,01,07,00,00,00);
+
 nc                 = loadNetCDF(ncfile,nc);
 
 %%
