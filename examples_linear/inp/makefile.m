@@ -39,6 +39,9 @@ elseif ispc     % Or Windows?
     addpath([basedir,'TMD/DATA/']);
 end
 
+% Output directory: dat and nc files.
+inputConf.outbase = pwd;
+
 % Write out diary file.
 % Clear the diary file if it does exist.
 if exist(fullfile(inputConf.outbase, 'diary'),'file')==2
@@ -50,9 +53,6 @@ if exist(fullfile(inputConf.outbase, 'diary'),'file')==2
     end
 end
 diary on;
-
-% Output directory: dat and nc files.
-inputConf.outbase = pwd;
 
 % Write out all the required files.
 % Make the output directory if it doesnt exist
@@ -90,7 +90,7 @@ inputConf.flag.sta = 'no';
 %%%------------------------------------------------------------------------
 
 % input coordinates (what's my input bathy in?)
-inputConf.coordInput = 'cartesian'; % 'spherical' or 'cartesian'
+inputConf.coordInput = 'spherical'; % 'spherical' or 'cartesian'
 % output coordinates (FVCOM only likes cartesian at the moment)
 if strcmpi(inputConf.flag.sph, 'no')
     inputConf.coordType = 'cartesian'; % 'spherical' or 'cartesian' 
@@ -103,7 +103,7 @@ end
 % As Utm-zones indicated, here should be 54-S, but here the utmZone should
 % be tmzone (UTM longitudinal zone) and utmhemi (UTM hemisphere as array of
 % 'N' or 'S' characters)
-inputConf.utmZone = {'52 N'};
+inputConf.utmZone = {'54 N'};
 
 % Option to smooth the bathymetry data.
 inputConf.smoothBathy = 'no'; % 'yes' or 'no'.
@@ -122,9 +122,9 @@ inputConf.verticalCoordType = 'sigma';
 %%%------------------------------------------------------------------------
 
 % Model time ([Y,M,D,h,m,s])
-inputConf.modelYear = 1858;
-inputConf.startDate = [inputConf.modelYear,11,17,00,00,00];
-inputConf.endDate = [inputConf.modelYear+1,11,17,00,00,00];
+inputConf.modelYear = 2014;
+inputConf.startDate = [inputConf.modelYear,01,01,00,00,00];
+inputConf.endDate = [inputConf.modelYear+1,01,01,00,00,00];
 
 % Convert times to Modified Julian Date
 inputConf.startDateMJD = greg2mjulian(inputConf.startDate(1),...
@@ -158,7 +158,7 @@ inputConf.spongeCoeff = 0.001;
 inputConf.bedRoughness = 0.015; % or 0.015, 0.025 or 0.03 - Davies and Furnes (1980) shelf model
 
 % Estimated velocity (m/s) and tidal range (m) for time step estimate
-inputConf.estVel = 1.5;
+inputConf.estVel = 1.0;
 inputConf.estRange = 2.0;
 
 %%
@@ -211,27 +211,27 @@ inputConf.tidesMJD = inputConf.startDateMJD:inputConf.datetide:inputConf.endDate
 inputConf.riverForcing = 'FLUX';
 % River information
 inputConf.river.infos = {...
-    'river_01'};
+    'test01'};
 % Location of river file
 inputConf.river.flux = [basedir,'cart/examples_linear/inp/river_flux.csv'];
 inputConf.river.temp = [basedir,'cart/examples_linear/inp/river_temp.csv'];
 inputConf.river.salt = [basedir,'cart/examples_linear/inp/river_salt.csv'];
-inputConf.river.location = [basedir,'river/data_q/river_location.csv'];
+inputConf.river.location = [basedir,'cart/examples_linear/inp/river_location.csv'];
 
-% New information of river, combine Nakagawa and Arakawa data to one river.
-% River information
-inputConf.river.infos = {...
-    'Edogawa',...
-    'Nakagawa_Arakawa',...
-    'Sumidagawa',...
-    'Tamagawa',...
-    'Tsurumigawa',...
-    'Ebigawa'};
-% Location of river file
-inputConf.river.flux = [basedir,'river/data_q/river_flux_combine.csv'];
-inputConf.river.temp = [basedir,'river/data_q/river_temp_combine.csv'];
-inputConf.river.salt = [basedir,'river/data_q/river_salt_combine.csv'];
-inputConf.river.location = [basedir,'river/data_q/river_location_combine.csv'];
+% % New information of river, combine Nakagawa and Arakawa data to one river.
+% % River information
+% inputConf.river.infos = {...
+%     'Edogawa',...
+%     'Nakagawa_Arakawa',...
+%     'Sumidagawa',...
+%     'Tamagawa',...
+%     'Tsurumigawa',...
+%     'Ebigawa'};
+% % Location of river file
+% inputConf.river.flux = [basedir,'river/data_q/river_flux_combine.csv'];
+% inputConf.river.temp = [basedir,'river/data_q/river_temp_combine.csv'];
+% inputConf.river.salt = [basedir,'river/data_q/river_salt_combine.csv'];
+% inputConf.river.location = [basedir,'river/data_q/river_location_combine.csv'];
 
 % Adjust river mouth location
 % 139°55'57.84"	139°50'55.07"	139°46'29.73"	139°46'46.94"	139°40'53.63"	139°58'41.66"
@@ -245,58 +245,58 @@ inputConf.boundaryNames = {'open boundary'};
 % Stations
 % Read from kml or list file.
 % inputConf.station = 'list';
-inputConf.station = 'kml';
-if strcmpi(inputConf.station,'kml')
-    inputConf.names = {};
-    inputConf.positions = [];
-    inputConf.fkml = fullfile(inputConf.outbase, ...
-        [inputConf.casename,'_stations.kml']);
-    kml = read_kml(inputConf.fkml);
-    for k = 1:size(kml,2)
-        if strcmpi(kml(k).Geometry,'Point')
-            inputConf.names{end+1} = kml(k).Name;
-            inputConf.positions(end+1,1) = kml(k).Lon;
-            inputConf.positions(end,2) = kml(k).Lat;
-        end
-    end
-elseif strcmpi(inputConf.station,'list')
-    inputConf.names = {...
-        'Tokyo',...
-        'Chiba',...
-        'Yokohamashinko',...
-        'Daini-Kaiho',...
-        'Yokosuka',...
-        'Kyurihamako',...
-        'Tidal-Station-1',...
-        'Tidal-Station-2',...
-        'Tidal-Station-3',...
-        'Tidal-Station-4',...
-        };
-    inputConf.positions = [...
-        139.7700000000000,35.648888888888889;...
-        140.0455555555556,35.568055555555556;...
-        139.6441666666666,35.454166666666667;...
-        139.7433333333333,35.308611111111105;...
-        139.6513888888889,35.288055555555556;...
-        139.7208333333333,35.227777777777778;...
-        139.6912777777778,35.062205555555556;...
-        139.7207861111112,35.076750000000004;...
-        139.7504166666667,35.093661111111111;...
-        139.7735055555556,35.127727777777778;...
-        ];
-else
-    inputConf.station = 'None';
-end
-
-if ~strcmpi(inputConf.station,'None')
-UTMzone = regexpi(inputConf.utmZone,'\ ','split');
-for s = 1:length(inputConf.positions)
-    [inputConf.positions(s,3),inputConf.positions(s,4),~,~] = wgs2utm(...
-        inputConf.positions(s,2),inputConf.positions(s,1),...
-        str2double(char(UTMzone{1}(1))),char(UTMzone{1}(2)));
-end
-clear s UTMzone
-end
+% inputConf.station = 'kml';
+% if strcmpi(inputConf.station,'kml')
+%     inputConf.names = {};
+%     inputConf.positions = [];
+%     inputConf.fkml = fullfile(inputConf.outbase, ...
+%         [inputConf.casename,'_stations.kml']);
+%     kml = read_kml(inputConf.fkml);
+%     for k = 1:size(kml,2)
+%         if strcmpi(kml(k).Geometry,'Point')
+%             inputConf.names{end+1} = kml(k).Name;
+%             inputConf.positions(end+1,1) = kml(k).Lon;
+%             inputConf.positions(end,2) = kml(k).Lat;
+%         end
+%     end
+% elseif strcmpi(inputConf.station,'list')
+%     inputConf.names = {...
+%         'Tokyo',...
+%         'Chiba',...
+%         'Yokohamashinko',...
+%         'Daini-Kaiho',...
+%         'Yokosuka',...
+%         'Kyurihamako',...
+%         'Tidal-Station-1',...
+%         'Tidal-Station-2',...
+%         'Tidal-Station-3',...
+%         'Tidal-Station-4',...
+%         };
+%     inputConf.positions = [...
+%         139.7700000000000,35.648888888888889;...
+%         140.0455555555556,35.568055555555556;...
+%         139.6441666666666,35.454166666666667;...
+%         139.7433333333333,35.308611111111105;...
+%         139.6513888888889,35.288055555555556;...
+%         139.7208333333333,35.227777777777778;...
+%         139.6912777777778,35.062205555555556;...
+%         139.7207861111112,35.076750000000004;...
+%         139.7504166666667,35.093661111111111;...
+%         139.7735055555556,35.127727777777778;...
+%         ];
+% else
+%     inputConf.station = 'None';
+% end
+% 
+% if ~strcmpi(inputConf.station,'None')
+% UTMzone = regexpi(inputConf.utmZone,'\ ','split');
+% for s = 1:length(inputConf.positions)
+%     [inputConf.positions(s,3),inputConf.positions(s,4),~,~] = wgs2utm(...
+%         inputConf.positions(s,2),inputConf.positions(s,1),...
+%         str2double(char(UTMzone{1}(1))),char(UTMzone{1}(2)));
+% end
+% clear s UTMzone
+% end
 
 % The accepted distance error of cal and real, in the cartesian coordinate 
 % system, the dist unit is meter.
@@ -316,9 +316,9 @@ if mesh_str{1,2}=="2dm"
         '2dm',inputConf.grid,...
         'coordinate',inputConf.coordType,...
         'in_coord',inputConf.coordInput,...
-        'project',false,...
+        'project',true,...
         'zone',inputConf.utmZone,...
-        'addCoriolis',false);
+        'addCoriolis',true);
 else
     Mobj = read_grid_mesh(...
         'grid',inputConf.grid,...
@@ -399,9 +399,9 @@ Mobj.lonc = nodes2elems(Mobj.lon, Mobj);
 Mobj.latc = nodes2elems(Mobj.lat, Mobj);
 
 % Add station
-if ~strcmpi(inputConf.station,'None')
-    Mobj = add_stations_list(Mobj,inputConf.positions,inputConf.names,inputConf.dist);
-end
+% if ~strcmpi(inputConf.station,'None')
+%     Mobj = add_stations_list(Mobj,inputConf.positions,inputConf.names,inputConf.dist);
+% end
 
 % Estimate model time step. Supply estimated velocity (m/s) and tidal range
 % (m) after the mesh object.
@@ -427,9 +427,9 @@ write_FVCOM_sponge(Mobj,fullfile(inputConf.outbase,[inputConf.casename,'_spg.dat
 % Bed roughness (constant or variable (see above))
 write_FVCOM_z0(Mobj.z0,fullfile(inputConf.outbase,[inputConf.casename,'_z0.nc']),'bottom roughness');
 % % Time series wave stations
-if ~strcmpi(inputConf.station,'None')
-    write_FVCOM_stations(Mobj,fullfile(inputConf.outbase,[inputConf.casename,'_station.dat']));
-end
+% if ~strcmpi(inputConf.station,'None')
+%     write_FVCOM_stations(Mobj,fullfile(inputConf.outbase,[inputConf.casename,'_station.dat']));
+% end
     
 % Save Model object file
 if exist('varb', 'dir')~=7
@@ -438,6 +438,7 @@ end
 save('varb/Mobj_00.mat','Mobj','-v7.3','-nocompression');
 
 %%
+%{
 %%%------------------------------------------------------------------------
 %%%                    Additional forcing: Tides
 %%%                    潮汐驱动力 
@@ -725,6 +726,7 @@ elseif strcmpi(inputConf.obcForcing,'phase-amp')
         'TPXO spectral tidal boundary input');
 end
 fprintf('Tidal forcing working time: %.2f minutes\n', toc / 60);
+%}
 
 %%
 %%%------------------------------------------------------------------------
@@ -1150,7 +1152,7 @@ write_FVCOM_river(fullfile(inputConf.outbase,...
      Mobj.river.flux,...
      Mobj.river.temp,...
      Mobj.river.salt,...
-    'Tokyo Bay rivers',...
+    'Test canal with rivers',...
     'Model river boundary input');
 write_FVCOM_river_nml(Mobj, ...
     fullfile(inputConf.outbase,'rivers_namelist.nml'), ...
