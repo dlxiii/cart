@@ -1,0 +1,6 @@
+ &NML_RIVER
+  RIVER_NAME          = 'test01',
+  RIVER_FILE          = 'box_river.nc',
+  RIVER_GRID_LOCATION = 277,
+  RIVER_VERTICAL_DISTRIBUTION = 'uniform'
+  /

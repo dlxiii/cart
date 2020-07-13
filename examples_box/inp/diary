@@ -1,0 +1,384 @@
+forward projecting to get (x,y)
+Estimated time step:	67.94
+Calculating open boundary forcing data from OTPS...
+Position 1 of 9 (139.796 35.000)... 
+MODE: Time series
+Reading /Users/yulong/GitHub/TMD/DATA/hf.Ind_2016.out and extracting HC...
+Interpolating constituent m2  ... done
+Interpolating constituent s2  ... done
+Interpolating constituent n2  ... done
+Interpolating constituent k2  ... done
+Interpolating constituent k1  ... done
+Interpolating constituent o1  ... done
+Interpolating constituent p1  ... done
+Interpolating constituent q1  ... done
+Done extracting HC
+Predicting tide ...
+done
+Position 2 of 9 (139.782 35.000)... 
+MODE: Time series
+Reading /Users/yulong/GitHub/TMD/DATA/hf.Ind_2016.out and extracting HC...
+Interpolating constituent m2  ... done
+Interpolating constituent s2  ... done
+Interpolating constituent n2  ... done
+Interpolating constituent k2  ... done
+Interpolating constituent k1  ... done
+Interpolating constituent o1  ... done
+Interpolating constituent p1  ... done
+Interpolating constituent q1  ... done
+Done extracting HC
+Predicting tide ...
+done
+Position 3 of 9 (139.768 35.000)... 
+MODE: Time series
+Reading /Users/yulong/GitHub/TMD/DATA/hf.Ind_2016.out and extracting HC...
+Interpolating constituent m2  ... done
+Interpolating constituent s2  ... done
+Interpolating constituent n2  ... done
+Interpolating constituent k2  ... done
+Interpolating constituent k1  ... done
+Interpolating constituent o1  ... done
+Interpolating constituent p1  ... done
+Interpolating constituent q1  ... done
+Done extracting HC
+Predicting tide ...
+done
+Position 4 of 9 (139.754 35.000)... 
+MODE: Time series
+Reading /Users/yulong/GitHub/TMD/DATA/hf.Ind_2016.out and extracting HC...
+Interpolating constituent m2  ... done
+Interpolating constituent s2  ... done
+Interpolating constituent n2  ... done
+Interpolating constituent k2  ... done
+Interpolating constituent k1  ... done
+Interpolating constituent o1  ... done
+Interpolating constituent p1  ... done
+Interpolating constituent q1  ... done
+Done extracting HC
+Predicting tide ...
+done
+Position 5 of 9 (139.740 35.000)... 
+MODE: Time series
+Reading /Users/yulong/GitHub/TMD/DATA/hf.Ind_2016.out and extracting HC...
+Interpolating constituent m2  ... done
+Interpolating constituent s2  ... done
+Interpolating constituent n2  ... done
+Interpolating constituent k2  ... done
+Interpolating constituent k1  ... done
+Interpolating constituent o1  ... done
+Interpolating constituent p1  ... done
+Interpolating constituent q1  ... done
+Done extracting HC
+Predicting tide ...
+done
+Position 6 of 9 (139.726 35.000)... 
+MODE: Time series
+Reading /Users/yulong/GitHub/TMD/DATA/hf.Ind_2016.out and extracting HC...
+Interpolating constituent m2  ... done
+Interpolating constituent s2  ... done
+Interpolating constituent n2  ... done
+Interpolating constituent k2  ... done
+Interpolating constituent k1  ... done
+Interpolating constituent o1  ... done
+Interpolating constituent p1  ... done
+Interpolating constituent q1  ... done
+Done extracting HC
+Predicting tide ...
+done
+Position 7 of 9 (139.712 35.000)... 
+MODE: Time series
+Reading /Users/yulong/GitHub/TMD/DATA/hf.Ind_2016.out and extracting HC...
+Interpolating constituent m2  ... done
+Interpolating constituent s2  ... done
+Interpolating constituent n2  ... done
+Interpolating constituent k2  ... done
+Interpolating constituent k1  ... done
+Interpolating constituent o1  ... done
+Interpolating constituent p1  ... done
+Interpolating constituent q1  ... done
+Done extracting HC
+Predicting tide ...
+done
+Position 8 of 9 (139.698 35.000)... 
+MODE: Time series
+Reading /Users/yulong/GitHub/TMD/DATA/hf.Ind_2016.out and extracting HC...
+Interpolating constituent m2  ... done
+Interpolating constituent s2  ... done
+Interpolating constituent n2  ... done
+Interpolating constituent k2  ... done
+Interpolating constituent k1  ... done
+Interpolating constituent o1  ... done
+Interpolating constituent p1  ... done
+Interpolating constituent q1  ... done
+Done extracting HC
+Predicting tide ...
+done
+Position 9 of 9 (139.684 35.000)... 
+MODE: Time series
+Reading /Users/yulong/GitHub/TMD/DATA/hf.Ind_2016.out and extracting HC...
+Interpolating constituent m2  ... done
+Interpolating constituent s2  ... done
+Interpolating constituent n2  ... done
+Interpolating constituent k2  ... done
+Interpolating constituent k1  ... done
+Interpolating constituent o1  ... done
+Interpolating constituent p1  ... done
+Interpolating constituent q1  ... done
+Done extracting HC
+Predicting tide ...
+done
+Tidal forcing working time: 0.74 minutes
+Reading river forcing file...Done!
+Writing river forcing file...Done!
+Undefined function 'loadNetCDF' for input arguments of type 'string'.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', '/Users/yulong/GitHub/cart/examples_box/otp/main.m', 39)" style="font-weight:bold">main</a> (<a href="matlab: opentoline('/Users/yulong/GitHub/cart/examples_box/otp/main.m',39,0)">line 39</a>)
+nc                 = loadNetCDF(ncfile,nc);
+
+fig = figure(02);
+for tt = 24*31:length(nc.time)
+    plotMesh(01, [nc.lon, nc.lat], nc.tri, nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye',{'Concentration (-)',[0,1]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+fig = figure(02);
+for tt = 1:length(nc.time)
+    plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,500]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+} 
+fig = figure(02);
+for tt = 24*31:length(nc.time)
+    plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,500]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+} 
+fig = figure(02);
+for tt = 24*31:length(nc.time)
+    plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,1]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+} 
+fig = figure(02);
+for tt = 24*31:length(nc.time)
+    plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,100]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+fig = figure(03);
+for tt = 24*31:length(nc.time)
+    plotMesh(03, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt)./nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,100]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+} 
+fig = figure(03);
+for tt = 24*31:length(nc.time)
+    plotMesh(03, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt)./nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,1000]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+fig = figure(02);
+for tt = 24*31:length(nc.time)
+    plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,100]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+} 
+dye=sqeeze(nc.dye(:,1,:));
+{Undefined function or variable 'sqeeze'.
+} 
+dye=squeeze(nc.dye(:,1,:));
+fig = figure(02);
+for tt = 24*31:length(nc.time)
+    plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,100]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+} 
+fig = figure(01);
+for tt = 24*31:length(nc.time)
+    plotMesh(01, [nc.lon, nc.lat], nc.tri, nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye',{'Concentration (-)',[0,1]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+filename = '01_dye.gif'; 
+for tt = 24*31:length(nc.time)
+    [A,map] = rgb2ind(im{tt},256);
+    if tt == 1
+        imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
+    else
+        imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.05);
+    end
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('wgifc')" style="font-weight:bold">wgifc</a>
+Can only append to GIF89a format GIFs.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('writegif', '/Applications/MATLAB_R2019a.app/toolbox/matlab/imagesci/private/writegif.m', 306)" style="font-weight:bold">writegif</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/imagesci/private/writegif.m',306,0)">line 306</a>)
+wgifc(mat, map, filename,writemode,disposalmethod,delaytime,...
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('imwrite', '/Applications/MATLAB_R2019a.app/toolbox/matlab/imagesci/imwrite.m', 546)" style="font-weight:bold">imwrite</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/imagesci/imwrite.m',546,0)">line 546</a>)
+        feval(fmt_s.write, data, map, filename, paramPairs{:});
+} 
+fig = figure(01);
+for tt = 24*31:length(nc.time)
+    plotMesh(01, [nc.lon, nc.lat], nc.tri, nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye',{'Concentration (-)',[0,1]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+filename = '01_dye.gif'; 
+for tt = 24*31:length(nc.time)
+    [A,map] = rgb2ind(im{tt},256);
+    if tt == 24*31
+        imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
+    else
+        imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.05);
+    end
+end
+fig = figure(02);
+for tt = 24*31:length(nc.time)
+    plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,100]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+} 
+fig = figure(02);
+for tt = 24*31:length(nc.time)
+    plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,300]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+filename = '02_dye_age.gif'; 
+for tt = 24*31:length(nc.time)
+    [A,map] = rgb2ind(im{tt},256);
+    if tt == 24*31
+        imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
+    else
+        imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.05);
+    end
+end
+fig = figure(03);
+for tt = 24*31:length(nc.time)
+    plotMesh(03, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt)./nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,1000]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+} 
+fig = figure(03);
+for tt = 24*31:length(nc.time)
+    plotMesh(03, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt)./nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,5000]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+} 
+fig = figure(03);
+for tt = 24*31:length(nc.time)
+    plotMesh(03, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt)./nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,10000]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+fig = figure(03);
+for tt = 24*31:length(nc.time)
+    plotMesh(03, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt)./nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,10000]});
+    drawnow
+    frame = getframe(fig);
+    im{tt} = frame2im(frame);
+end
+filename = '03_water_age.gif'; 
+for tt = 24*31:length(nc.time)
+    [A,map] = rgb2ind(im{tt},256);
+    if tt == 24*31
+        imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
+    else
+        imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.05);
+    end
+end
+main
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('getframe', '/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m', 55)" style="font-weight:bold">getframe</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2019a.app/toolbox/matlab/graphics/printing/getframe.m',55,0)">line 55</a>)
+A valid figure or axes handle must be specified
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('main', '/Users/yulong/GitHub/cart/examples_box/otp/main.m', 179)" style="font-weight:bold">main</a> (<a href="matlab: opentoline('/Users/yulong/GitHub/cart/examples_box/otp/main.m',179,0)">line 179</a>)
+    frame = getframe(fig);
+} 
+tt=length(nc.time)
+
+tt =
+
+        4345
+
+plotMesh(03, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt)./nc.dye(:,1,tt),...
+        'time',nc.Times(tt,1:19),...
+        'dye age',{'Time (s)',[0,10000]});
+plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
+        'time',n
