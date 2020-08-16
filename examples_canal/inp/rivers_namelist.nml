@@ -1,0 +1,24 @@
+ &NML_RIVER
+  RIVER_NAME          = 'test01',
+  RIVER_FILE          = 'canal_river.nc',
+  RIVER_GRID_LOCATION = 603,
+  RIVER_VERTICAL_DISTRIBUTION = 'uniform'
+  /
+ &NML_RIVER
+  RIVER_NAME          = 'test02',
+  RIVER_FILE          = 'canal_river.nc',
+  RIVER_GRID_LOCATION = 609,
+  RIVER_VERTICAL_DISTRIBUTION = 'uniform'
+  /
+ &NML_RIVER
+  RIVER_NAME          = 'test03',
+  RIVER_FILE          = 'canal_river.nc',
+  RIVER_GRID_LOCATION = 610,
+  RIVER_VERTICAL_DISTRIBUTION = 'uniform'
+  /
+ &NML_RIVER
+  RIVER_NAME          = 'test04',
+  RIVER_FILE          = 'canal_river.nc',
+  RIVER_GRID_LOCATION = 611,
+  RIVER_VERTICAL_DISTRIBUTION = 'uniform'
+  /
