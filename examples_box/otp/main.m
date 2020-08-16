@@ -188,3 +188,5 @@ for tt = 24*31:length(nc.time)
         imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0.05);
     end
 end
+
+plotWaterAge("tokyobay_0001.nc",1200)
