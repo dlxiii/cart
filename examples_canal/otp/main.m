@@ -141,7 +141,7 @@ for tt = 1:length(nc.time)
     frame = getframe(fig);
     im{tt} = frame2im(frame);
 end
-filename = '01_dye.gif'; 
+filename = '101_dye.gif'; 
 for tt = 1:length(nc.time)
     [A,map] = rgb2ind(im{tt},256);
     if tt == 1
@@ -152,7 +152,7 @@ for tt = 1:length(nc.time)
 end
 
 fig = figure(02);
-for tt = 1:length(nc.time)
+for tt = 1:73%length(nc.time)
     plotMesh(02, [nc.lon, nc.lat], nc.tri, nc.dye_age(:,1,tt),...
         'time',nc.Times(tt,1:19),...
         'dye age',{'Time (s)',[0,5*length(nc.time)]});
@@ -161,7 +161,7 @@ for tt = 1:length(nc.time)
     im{tt} = frame2im(frame);
 end
 filename = '02_dye_age.gif'; 
-for tt = 1:length(nc.time)
+for tt = 1:73%length(nc.time)
     [A,map] = rgb2ind(im{tt},256);
     if tt == 1
         imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
@@ -178,14 +178,14 @@ water_age(water_mask)=nan;
 
 fig = figure(03);
 for tt = 1:length(nc.time)
-    plotMesh(03, [nc.lon, nc.lat], nc.tri, water_age(:,tt),...
+    plotMesh(03, [nc.lon, nc.lat], nc.tri, water_age(:,tt)/24/60,...
         'time',nc.Times(tt,1:19),...
-        'dye age',{'Time (s)',[0,20*length(nc.time)]});
+        'dye age',{'Time (day)',[0,3]});
     drawnow
     frame = getframe(fig);
     im{tt} = frame2im(frame);
 end
-filename = '03_water_age.gif'; 
+filename = '101_03_water_age.gif'; 
 for tt = 1:length(nc.time)
     [A,map] = rgb2ind(im{tt},256);
     if tt == 1
@@ -228,12 +228,16 @@ list_water_age(list_water_age<0)=nan;
 list_water_age_day = list_water_age/24;
 list_water_age_day_surface = squeeze(list_water_age_day(:,1,:));
 
+% list_water_age_day_surface(end,end)
 fig = figure(01);
 for tt = 1:length(nc.time)
     yyaxis right;
     scatter(list_x,list_water_age_day_surface(:,tt));
 %     plot(list_x,list_water_age_day_surface(:,tt),'-o');
-    axis([0 1 0 1]);
+%     axis([0 1 0 200]);% 001 case
+%     axis([0 1 0 400]);% 001 case
+%     axis([0 1 0 2000]);% 001 case
+    axis([0 1 0 200]);% 001 case
     ylabel('Water age (day)','FontSize',14);
     yyaxis left;
     scatter(list_x,list_dye(:,1,tt));
@@ -251,7 +255,7 @@ for tt = 1:length(nc.time)
     im{tt} = frame2im(frame);
 end
 filename = '04_concentration_water_age.gif'; 
-for tt = 1:length(nc.time)
+for tt = 1:73%length(nc.time)
     [A,map] = rgb2ind(im{tt},256);
     if tt == 1
         imwrite(A,map,filename,'gif','LoopCount',Inf,'DelayTime',1);
@@ -265,13 +269,27 @@ for tt = 1:length(nc.time)
     list_spd(tt) = -1 * mean(list_va(:,tt));
 end
 scatter([1:length(nc.time)],list_spd);
-axis([0 length(nc.time) 0 0.01]);
+axis([0 length(nc.time) 0.00 0.1]);
 ylabel('Mean Velocity (m/s)','FontSize',14);
 xlabel('time (hour)','FontSize',14);
 title(['Mean velocity (m/s)'],'FontSize',14);
 
+% check how long time to flow cannal
+ans = list_dye(:,1,:);
+ans = squeeze(ans);
+plot(ans(end,:));
+axis([0 75 0 1]);
+% axis([0 150 0 1]);
+% axis([0 750 0 1]);
+
 % 1000m3/s * 4 / 910.3730m / 50m = 0.0879m/s
+% 70*3600*0.0879=22185m(*0.75=16639)
+% at about 66 hour flow go throgh canal.
 % 0500m3/s * 4 / 910.3730m / 50m = 0.0440m/s
+% 140*3600*0.0437=22024m(*0.75=16639)
+% at about 131 hour flow go throgh canal.
 % 0100m3/s * 4 / 910.3730m / 50m = 0.0088m/s
+% 701*3600*0.0088=22024m(*0.75=16639)
+% at about 701 hour flow go throgh canal.
 
 % 22193.75499782758m
